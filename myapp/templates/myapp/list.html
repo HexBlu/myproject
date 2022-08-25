@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+    <title>HexMove</title>
+<style>
+    body{
+        background-color: white;
+        font-family: Poppins;
+        margin-right: 10px;
+    }
+</style>
+</head>
+
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-default">
+    <div class="container">
+        <a class="navbar-brand" href="#" style="color: black;font-family:Poppins;">Hexon Move</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav" >
+                <a class="nav-item nav-link active" href="{% url 'home' %}" style="color: black;font-family:Poppins;">Home <span class="sr-only">(current)</span></a>
+                <a class="nav-item nav-link" href="{% url 'findbus' %}" style="color: black;font-family:Poppins;">Find Bus</a>
+                <a class="nav-item nav-link" href="{% url 'seebookings' %}" style="color: black;font-family:Poppins;">See Bookings</a>
+                {% if request.user.is_active %}
+                <a class="nav-item nav-link " href="{% url 'signout' %}" style="color: black;font-family:Poppins;">Sign out</a>
+                {% else %}
+                <a class="nav-item nav-link " href="{% url 'signup' %}" style="color: black;">Sign Up</a>
+                {% endif %}
+
+
+            </div>
+        </div>
+    </div>
+</nav>
+<h3>{{msg}}</h3>
+<h4 style="margin-top:25px;">Available Taxis</h4>
+<table class="table table-striped" >
+    <thead style="background-color: black;color: white;">
+    <td>ID</td>
+    <td>NAME</td>
+    <td>SOURCE</td>
+    <td>DESTINATION</td>
+    <td>NUM OF SEATS</td>
+    <td>NUM OF SEATS REM</td>
+    <td>PRICE</td>
+    <td>DATE</td>
+    <td>TIME</td>
+
+    </thead>
+
+    {% for bus in bus_list %}
+    <tr>
+        <td>{{bus.id }}</td>
+        <td>{{bus.bus_name}}</td>
+        <td>{{bus.source}}</td>
+        <td>{{bus.dest}}</td>
+        <td>{{bus.nos}}</td>
+        <td>{{bus.rem}}</td>
+        <td>{{bus.price}}</td>
+        <td>{{bus.date}}</td>
+        <td>{{bus.time}}</td>
+    </tr>
+    {% endfor %}
+</table>
+<form action="{% url 'bookings' %}" method="post">
+    <h3 style="margin-left: 300px;margin-top:50px;">Choose Taxi to book</h3>
+    {% csrf_token %}
+    <div class="col-auto">
+        <label for="example-email-input" class="col-2 col-form-label" style="margin-left: 300px;">Bus ID</label>
+        <div class="col-5">
+            <input name='bus_id' class="form-control" type="number" id="example-email-input" style="margin-left: 300px;">
+        </div>
+    </div>
+    <div class="col=auto">
+        <label for="example-email-input" class="col-2 col-form-label" style="margin-left: 316px;">Number of seats</label>
+        <div class="col-5">
+            <input name='no_seats' class="form-control" type="number" style="margin-left: 316px;">
+        </div>
+    </div>
+    <br>
+    <br>
+    <div class="pull-right">
+        <button type="submit" class="btn btn-dark float-left"style="margin-left: 330px;">Book taxi</button>
+    </div>
+
+
+    {{error}}
+
+</form>
+</body>

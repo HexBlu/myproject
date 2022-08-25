@@ -1,0 +1,30 @@
+{% extends 'myapp/base.html' %}
+
+{% block content %}
+<style>
+    body{
+        background-color: black;
+        color: white;
+        font-family: Poppins;
+    }
+</style>
+<body>
+<div class="container">
+        <div class="row">
+            <div class="col-sm-6 mx-auto" style="margin-top: 70px">
+                <form action="{% url 'signout' %}" method="post">
+                    {% csrf_token %}
+                    Welcome {{user}} your sign in was succesful!
+
+
+                    <div class="pull-right">
+                        <button type="Submit" class="btn btn-dark float-right">Sign out</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+    </div>
+</body>
+{% endblock %}
